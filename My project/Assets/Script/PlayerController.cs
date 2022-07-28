@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
+    GameObject m_bulletPrefab;
+    [SerializeField]
+    Transform m_FirePos;
+    [SerializeField]
     Animator m_animator;
     [SerializeField]
     SpriteRenderer m_spriteRenderer;
@@ -13,11 +17,43 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Rigidbody2D m_regidbody;
     Vector3 m_dir;
+    float m_jumpPower = 2f;
+    bool m_isGrounded;
+    bool m_isFall;
+    int m_jumpCount;
+    
 
     public float Speed { get { return m_speed; } set { m_speed = value; } }
-
-    void MovePlayer()
+    #region Animaiton Event Methods
+    void AnimEvent_CreateBUllet()
     {
+        var obj = Instantiate(m_bulletPrefab);
+        var bullet = obj.GetComponent<BulletController>();
+        bullet.SetBullet(m_FirePos.position, transform.eulerAngles.y != 0f ? Vector3.right : Vector3.left);
+
+    }
+    #endregion
+
+    void PlayerControl()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            m_animator.SetBool("IsFire", true);
+            //CreateBUllet();
+        }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            m_animator.SetBool("IsFire", false);
+        }
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (m_jumpCount > 1) return; 
+            m_regidbody.AddForce(Vector3.up * m_jumpPower, ForceMode2D.Impulse);
+            m_animator.SetInteger("JumpState", 1);
+            m_isFall = false;
+            m_jumpCount++;
+            
+        }
         if(Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             m_animator.SetBool("IsMove", false);
@@ -26,16 +62,46 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             m_animator.SetBool("IsMove", true);
-            m_spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             m_dir = Vector3.left;
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             m_animator.SetBool("IsMove", true);
-            m_spriteRenderer.flipX = true;
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             m_dir = Vector3.right;
         }
-        gameObject.transform.position += m_dir * Speed * Time.deltaTime;
+        var stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+        if(!stateInfo.IsName("Fire"))
+            gameObject.transform.position += m_dir * Speed * Time.deltaTime;
+    }
+    void JumpProcess()
+    {
+        if(m_regidbody.velocity.y < 0f && !m_isGrounded)
+        {
+            if(!m_isFall)
+            {
+                m_animator.SetInteger("JumpState", 2);
+                m_isFall = true;
+            }
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag.Equals("Ground"))
+        {
+            m_isGrounded = true;
+            m_isFall = false;
+            m_animator.SetInteger("JumpState", 0);
+            m_jumpCount = 0;
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            m_isGrounded = false;
+        }
     }
     #region Unity Methods
     // Start is called before the first frame update
@@ -59,7 +125,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
+        PlayerControl();
+        JumpProcess();
     }
     #endregion
 }
