@@ -46,8 +46,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: c04591101d589284cb0028abf97154ec, type: 2}
   mSprites:
   - name: RestartHoverSprite
-    x: 252
-    y: 399
+    x: 769
+    y: 911
     width: 251
     height: 113
     borderLeft: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 6
   - name: RestartHoverSprite 1
-    x: 252
-    y: 285
+    x: 769
+    y: 797
     width: 251
     height: 113
     borderLeft: 0
@@ -72,8 +72,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 6
   - name: RestartIdleSprite 1
-    x: 0
-    y: 57
+    x: 769
+    y: 683
     width: 251
     height: 113
     borderLeft: 0
@@ -85,8 +85,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 6
   - name: StartHoverSprite
-    x: 0
-    y: 171
+    x: 769
+    y: 569
     width: 251
     height: 113
     borderLeft: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
     paddingBottom: 6
   - name: StartIdleSprite
     x: 0
-    y: 285
+    y: 399
     width: 251
     height: 113
     borderLeft: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
     paddingBottom: 6
   - name: StartPressSprite 1
     x: 0
-    y: 399
+    y: 285
     width: 251
     height: 113
     borderLeft: 0
@@ -123,6 +123,19 @@ MonoBehaviour:
     paddingRight: 4
     paddingTop: 9
     paddingBottom: 6
+  - name: Wooden Atlas
+    x: 0
+    y: 513
+    width: 768
+    height: 511
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 256
+    paddingTop: 1
+    paddingBottom: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}
   mCoordinates: 0
