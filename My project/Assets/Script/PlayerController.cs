@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Animator m_animator;
     [SerializeField]
     SpriteRenderer m_spriteRenderer;
+   
     [SerializeField]
     float m_speed = 0.02f;
     [SerializeField]
@@ -104,6 +105,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     #region Unity Methods
+
+    private void OnGUI()
+    {
+        if(GUI.Button(new Rect(5, 5, 100, 50), "TItle"))
+        {
+            LoadSceneManager.Instance.LoadSceneAsync(LoadSceneManager.SceneState.Title);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {

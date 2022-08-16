@@ -6,15 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class TitleController : MonoBehaviour
 {
-    [SerializeField]
-    GameObject m_loadingObj;
-    UIProgressBar m_loadingBar;
-    UILabel m_loadingPregress;
-    AsyncOperation m_loadingInfo;
     public void GoNextScene()
     {
-        m_loadingObj.SetActive(true);
-        m_loadingInfo = SceneManager.LoadSceneAsync("Game");
+        LoadSceneManager.Instance.LoadSceneAsync(LoadSceneManager.SceneState.Game);
     }
     /*
     bool[] m_isActive = { false, false };
@@ -68,26 +62,13 @@ public class TitleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_loadingObj.SetActive(false);
-        m_loadingBar = m_loadingObj.GetComponentInChildren<UIProgressBar>();
-        m_loadingPregress = m_loadingObj.GetComponentInChildren<UILabel>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(m_loadingInfo != null)
-        {
-            if(m_loadingInfo.isDone)
-            {
-
-            }
-            else
-            {
-                m_loadingBar.value = m_loadingInfo.progress;
-                m_loadingPregress.text = Mathf.CeilToInt(m_loadingInfo.progress * 100.0f).ToString() + "%";
-            }
-        }
+       
     }
     
 }
