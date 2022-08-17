@@ -22,7 +22,8 @@ public class ItemSlot : MonoBehaviour
     public void OnUseItem()
     {
         if (m_item == null) return;
-        m_item.DecreaseItem();
+        var count = m_item.DecreaseItem();
+        if (count <= 0) m_item = null;
     }
     public void SetSlot(Item item)
     {

@@ -13,9 +13,9 @@ public class Item : MonoBehaviour
     {
         m_iconSprite.sprite2D = icon;
         m_itemDataInfo = itemDataInfo;
-        ResetCount();
+        ResetCount(); 
     }
-    public void DecreaseItem()
+    public int DecreaseItem()
     {
         m_itemDataInfo.m_count--;
         ResetCount();
@@ -23,6 +23,7 @@ public class Item : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        return m_itemDataInfo.m_count;
     }
     private void ResetCount()
     {

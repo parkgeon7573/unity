@@ -13,7 +13,11 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     UISprite m_cursorSprite;
     [SerializeField]
-    Sprite[] m_icons;    
+    UILabel m_slotInfoLabel;
+    [SerializeField]
+    Sprite[] m_icons;
+    [SerializeField]
+    TweenScale m_tweenScale;
     [SerializeField]
     ItemData[] m_itemDatas;
     Dictionary<ItemType, ItemData> m_itemDataTable = new Dictionary<ItemType, ItemData>();
@@ -24,15 +28,24 @@ public class Inventory : MonoBehaviour
     public void ShowUI()
     {
         gameObject.SetActive(true);
+        m_slotGrid.gameObject.SetActive(false);
+        m_tweenScale.ResetToBeginning(); 
+        m_tweenScale.PlayForward();
     }
     public void HideUI()
     {
         gameObject.SetActive(false);
     }
+    public void OnSlotExpand()
+    {
+        CreateItemSlot(m_SlotcolumeCount);
+        m_maxSlotCont += m_SlotcolumeCount;
+    }
     public void OnUseItem()
     {
         if (m_curSlotIndex == -1) return;
         m_itemSlotList[m_curSlotIndex].OnUseItem();
+        SetSlotInfo();
     }
     public void OnSelectSlot(ItemSlot slot)
     {
@@ -71,12 +84,22 @@ public class Inventory : MonoBehaviour
                 var item = obj.GetComponent<Item>(); 
                 item.SetItem(itemDatainfo, m_icons[itemData.m_icon]);
                 m_itemSlotList[i].SetSlot(item);
+                SetSlotInfo();
                 break;
             }
         }
     }
+    void SetSlotInfo()
+    {
+        int slotUsed = 0;
+        var results = m_itemSlotList.FindAll(slot => !slot.IsEmpty);
+        if (results != null)
+            slotUsed = results.Count;
+        m_slotInfoLabel.text = string.Format("{0}/{1}",slotUsed, m_itemSlotList.Count);
+    }
     void CreateItemSlot(int count)
     {
+        int curSlotCount = m_itemSlotList.Count;
         for(int i = 0; i < count; i++)
         {
             var obj = Instantiate(m_itemSlotPrefab);
@@ -84,9 +107,11 @@ public class Inventory : MonoBehaviour
             obj.transform.localScale = Vector3.one;
             var slot = obj.GetComponent<ItemSlot>();
             slot.InintSlot(this);
-            slot.name = "slot_" + i;
+            slot.name = "slot_" + (curSlotCount + i);
             m_itemSlotList.Add(slot);
         }
+        SetSlotInfo();
+        m_slotGrid.repositionNow = true;
     } 
     void InitItemDataTable()
     {
@@ -100,15 +125,9 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         CreateItemSlot(m_maxSlotCont);
-        m_slotGrid.repositionNow = true;
+        
         InitItemDataTable();
         m_cursorSprite.enabled = false;
         HideUI();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

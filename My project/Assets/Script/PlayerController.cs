@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
+    Inventory m_myInven;
+    [SerializeField]
     GameObject m_bulletPrefab;
     [SerializeField]
     Transform m_FirePos;
@@ -37,7 +39,14 @@ public class PlayerController : MonoBehaviour
 
     void PlayerControl()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (m_myInven.gameObject.activeSelf)            
+                m_myInven.HideUI();            
+            else            
+                m_myInven.ShowUI();            
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             m_animator.SetBool("IsFire", true);
             //CreateBUllet();
