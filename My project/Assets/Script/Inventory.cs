@@ -25,10 +25,17 @@ public class Inventory : MonoBehaviour
     int m_maxSlotCont = 24;
     int m_SlotcolumeCount = 6;
     int m_curSlotIndex = -1;
+
+    IEnumerator Coroutine_ReActive(GameObject obj)
+    {
+        obj.SetActive(false);
+        yield return new WaitForEndOfFrame();
+        obj.SetActive(true);
+    }
     public void ShowUI()
     {
         gameObject.SetActive(true);
-        m_slotGrid.gameObject.SetActive(false);
+        StartCoroutine(Coroutine_ReActive(m_slotGrid.gameObject));
         m_tweenScale.ResetToBeginning(); 
         m_tweenScale.PlayForward();
     }

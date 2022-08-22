@@ -198,9 +198,12 @@
     <Compile Include="Assets\Script\ItemData.cs" />
     <Compile Include="Assets\Script\ItemSlot.cs" />
     <Compile Include="Assets\Script\JumpTween.cs" />
-    <Compile Include="Assets\Script\LoadSceneManager.cs" />
+    <Compile Include="Assets\Script\Manager\LoadSceneManager.cs" />
+    <Compile Include="Assets\Script\Manager\PopupManager.cs" />
     <Compile Include="Assets\Script\MoveTween.cs" />
     <Compile Include="Assets\Script\PlayerController.cs" />
+    <Compile Include="Assets\Script\Popup\Popup_Ok.cs" />
+    <Compile Include="Assets\Script\Popup\Popup_OkCancel.cs" />
     <Compile Include="Assets\Script\Raycasting.cs" />
     <Compile Include="Assets\Script\TitleController.cs" />
     <Compile Include="Assets\Script\Util\SingletonDontDestroy.cs" />
